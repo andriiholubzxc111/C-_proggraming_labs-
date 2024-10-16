@@ -1,10 +1,37 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+var patients = new List<Patient>
+{
+    new Patient { LastName = "Ruschak",
+        BirthDate = new DateTime(1959, 9, 20), 
+        Diagnosis = "diagnos 1", 
+        DoctorLastName = "Danylo", 
+        Department = "Cardiology", 
+        AdmissionDate = new DateTime(2023, 1, 10), 
+        DischargeDate = new DateTime(2023, 2, 1) 
+    },
+    new Patient { LastName = "Keshel", 
+        BirthDate = new DateTime(1960, 1, 1), 
+        Diagnosis = "diagnos 2", 
+        DoctorLastName = "Beletsky", 
+        Department = "Neurology", 
+        AdmissionDate = new DateTime(2024, 9, 12), 
+        DischargeDate = new DateTime(2024, 10, 25) 
+    },
+    new Patient { LastName = "Potapov", 
+        BirthDate = new DateTime(2004, 5, 27), 
+        Diagnosis = "diagnos 3", 
+        DoctorLastName = "Shykula", 
+        Department = "Cardiology", 
+        AdmissionDate = new DateTime(2024, 8, 3), 
+        DischargeDate = new DateTime(2024, 10, 5) }
+};
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
 
-</Project>
+var PensionAge = 65;
+var targetDepartments = new List<string> { "Cardiology", "Neurology" };
+
+var currentDate = DateTime.Now;
+var PensionerPatientsCount = patients
+    .Where(p => targetDepartments.Contains(p.Department) && (currentDate.Year - p.BirthDate.Year) >= PensionAge)
+    .Count();
+
+Console.WriteLine($"Загальна кількість пацієнтів пенсійного віку: {PensionerPatientsCount}");
