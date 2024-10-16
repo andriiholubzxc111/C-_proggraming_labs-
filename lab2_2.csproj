@@ -1,10 +1,70 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+var doctors = new List<Doctor>
+{
+    new Doctor
+    {
+        LastName = "Shykula",
+        Specialization = "Cardiology"
+    },
+    new Doctor
+    {
+        LastName = "Danylo",
+        Specialization = "Cardiology"
+    },
+    new Doctor
+    {
+        LastName = "Beletsky",
+        Specialization = "Neurology"
+    }
+};
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
 
-</Project>
+
+var patients = new List<Patient>
+{
+    new Patient { 
+        LastName = "Ruschak",
+        BirthDate = new DateTime(1959, 9, 20), 
+        Diagnosis = "diagnos 1", 
+        DoctorLastName = "Danylo", 
+        Department = "Cardiology", 
+        AdmissionDate = new DateTime(2023, 1, 10), 
+        DischargeDate = new DateTime(2023, 2, 1) 
+    },
+    new Patient { 
+        LastName = "Keshel", 
+        BirthDate = new DateTime(1960, 1, 1), 
+        Diagnosis = "diagnos 2", 
+        DoctorLastName = "Beletsky", 
+        Department = "Neurology", 
+        AdmissionDate = new DateTime(2024, 9, 12), 
+        DischargeDate = new DateTime(2024, 10, 25) 
+    },
+    new Patient { 
+        LastName = "Potapov", 
+        BirthDate = new DateTime(2004, 5, 27), 
+        Diagnosis = "diagnos 3", 
+        DoctorLastName = "Shykula", 
+        Department = "Cardiology", 
+        AdmissionDate = new DateTime(2024, 8,3), 
+        DischargeDate = new DateTime(2024, 10, 5) },
+    new Patient {
+        LastName = "Dyachenko",
+        BirthDate = new DateTime (2001,3,17),
+        Diagnosis = "diagnos 4",
+        DoctorLastName = "Beletsky",
+        Department = "Neurology",
+        AdmissionDate = new DateTime(2024, 9, 4),
+        DischargeDate =  new DateTime(2024,9,12)
+    }
+
+};
+
+var targetSpecialization = "Neurology";
+
+var diagnosisCount = patients
+    .Join(doctors, p => p.DoctorLastName, d => d.LastName, (p, d) => new { p.Diagnosis, d.Specialization })
+    .Where(pd => pd.Specialization == targetSpecialization)
+    .GroupBy(pd => pd.Diagnosis)
+    .Count();
+
+Console.WriteLine($"Кількість різних діагнозів поставлених лікарем зі спеціальністю: {targetSpecialization}: {diagnosisCount}");
